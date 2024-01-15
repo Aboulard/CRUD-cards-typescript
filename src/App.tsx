@@ -28,12 +28,9 @@ function App() {
         return (response.json())
       })
       .then(data => {
-        const newArray = data[0].Users.map((User: User) => {
-          return { ID: User.ID, Nom: User.Nom, Age: User.Age, Prénom: User.Prénom, Photo: User.Photo }
-        });
-        setUsersArray(newArray)
+        setUsersArray(data[0].Users)
       })
-
+      
   }, []);
   return (
     <div>

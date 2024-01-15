@@ -9,16 +9,10 @@ export type CreateUserType = {
     setNumberElem: React.Dispatch<React.SetStateAction<number>>;
 }
 
-
 export function MyCreateUser({ setUsersArray, numberElem, setNumberElem }: CreateUserType) {
-    /*
-    Problème pas grave mais problème quand même:
-    Quand je modifie les infos pour la création d'un User, c'est sauvegardé, ça se reset pas
-    Peut-être rajouter un truc qui empeche d'entrer des infos vides    
-    */
 
     const [openCreate, setOpenCreate] = useState(false);
-    let [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "", Age: 0, Prénom: "", Photo: "" })
+    let [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
 
     const handleClickCreateOpen = () => {
         setOpenCreate(true);
@@ -49,21 +43,18 @@ export function MyCreateUser({ setUsersArray, numberElem, setNumberElem }: Creat
                         Insert information corresponding to the User you are trying to add
                     </DialogContentText>
                     <TextField
-                        //                    required
                         id="Prénom"
                         label="Prénom"
                         variant="outlined"
                         margin="normal"
                         onChange={(v) => settmp_user((previous: User) => ({ ...previous, Prénom: v.target.value }))} /><br></br>
                     <TextField
-                        //                    required
                         id="Nom"
                         label="Nom"
                         variant="outlined"
                         margin="normal"
                         onChange={(v) => settmp_user((previous: User) => ({ ...previous, Nom: v.target.value }))} /><br></br>
                     <TextField
-                        //                    required
                         id="Age"
                         label="Age"
                         type="number"
@@ -71,7 +62,6 @@ export function MyCreateUser({ setUsersArray, numberElem, setNumberElem }: Creat
                         margin="normal"
                         onChange={(v) => settmp_user((previous: User) => ({ ...previous, Age: Number(v.target.value) }))} /><br></br>
                     <TextField
-                        //                    required
                         id="Photo_URL"
                         label="Photo_URL"
                         variant="outlined"
