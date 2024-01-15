@@ -2,11 +2,16 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { MediaCard } from './assets/AppComponents/Mediacard';
-import { MyCreateUser, MyUpdateUser } from './assets/AppComponents/MyDialogs';
+import { MediaCard, MyUpdateUser } from './assets/AppComponents/Mediacard';
+import { MyCreateUser } from './assets/AppComponents/MyDialogs';
 
 // The user type that I created contains a user specific ID that helps to identify them and all information relevant to that users card
 
+/*
+type setUSer = {
+  tmp_user: User;
+  settmp_user: React.Dispatch<React.SetStateAction<User>>;
+}*/
 
 export type User = {
   ID: number;
@@ -102,13 +107,17 @@ function App() {
       >
         <Grid
           container
-          rowSpacing={1}
-          columnSpacing={1}
-          columns={{ xs: 4, sm: 6, md: 10 }} //Je n'ai pas réussi à le faire marcher comme je le voulais
+          spacing={{ xs: 2, md: 3 }}
+          justifyItems={'center'}
+          columns={{ xs: 4, sm: 8, md: 12 }}        //          columns={{ xs: 4, sm: 6, md: 10 }} //Je n'ai pas réussi à le faire marcher comme je le voulais
         >
           {
             usersArray.map((user) => {
-              return <MediaCard key={user.ID} current_user={user} handleDelete={handleDelete} handleUpdate={handleClickOpenUpdate} />
+              return (
+                <Grid item container direction="row" xs={8} sm={3}>
+                  <MediaCard key={user.ID} current_user={user} handleDelete={handleDelete} handleUpdate={handleClickOpenUpdate} />
+                </Grid>
+              )
             })
           }
         </Grid>
@@ -123,7 +132,7 @@ function App() {
         </Box>
       </Box>
       <MyCreateUser openCreate={openCreate} handleCreateClose={handleCreateClose} CreateUser={CreateUser} />
-      <MyUpdateUser openUpdate={openUpdate} handleUpdateClose={handleUpdateClose} UpdateUserInfo={UpdateUserInfo} tmp_user={tmp_user} settmp_user={settmp_user}/>
+      <MyUpdateUser openUpdate={openUpdate} handleUpdateClose={handleUpdateClose} UpdateUserInfo={UpdateUserInfo} tmp_user={tmp_user} settmp_user={settmp_user} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { User, CreateUserType, UpdateUserType } from '../../App';
+import { User, CreateUserType } from '../../App';
 import { useState } from 'react';
 
 export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: CreateUserType) {
@@ -9,8 +9,7 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
     Quand je modifie les infos pour la création d'un User, c'est sauvegardé, ça se reset pas
     Peut-être rajouter un truc qui empeche d'entrer des infos vides    
     */
-    const [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
-
+    let [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
 
     return (
         <Dialog open={openCreate} onClose={handleCreateClose} title='Dialog Box to Create new User'>
@@ -20,7 +19,7 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
                     Insert information corresponding to the User you are trying to add
                 </DialogContentText>
                 <TextField
-                    required
+//                    required
                     id="Prénom"
                     label="Prénom"
                     variant="outlined"
@@ -28,7 +27,7 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
                     onChange={(v) => settmp_user((previous: User) => ({ ...previous, Prénom: v.target.value }))}
                 /><br></br>
                 <TextField
-                    required
+//                    required
                     id="Nom"
                     label="Nom"
                     variant="outlined"
@@ -36,7 +35,7 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
                     onChange={(v) => settmp_user((previous: User) => ({ ...previous, Nom: v.target.value }))}
                 /><br></br>
                 <TextField
-                    required
+//                    required
                     id="Age"
                     label="Age"
                     type="number"
@@ -45,7 +44,7 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
                     onChange={(v) => settmp_user((previous: User) => ({ ...previous, Age: Number(v.target.value) }))}
                 /><br></br>
                 <TextField
-                    required
+//                    required
                     id="Photo_URL"
                     label="Photo_URL"
                     variant="outlined"
@@ -56,56 +55,6 @@ export function MyCreateUser({ openCreate, handleCreateClose, CreateUser }: Crea
             <DialogActions>
                 <Button onClick={handleCreateClose}>Cancel</Button>
                 <Button onClick={() => { CreateUser(tmp_user); handleCreateClose(); }}>Add User</Button>
-            </DialogActions>
-        </Dialog>
-    )
-}
-
-export function MyUpdateUser({ openUpdate, handleUpdateClose, UpdateUserInfo, tmp_user, settmp_user}: UpdateUserType) {
-    return (
-        <Dialog open={openUpdate} onClose={handleUpdateClose} title='Dialog Box to Update Existing User'>
-            <DialogTitle>Modify User</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    Modify Information on the current user
-                </DialogContentText>
-                <TextField
-                    required
-                    id="Prénom"
-                    label="Prénom"
-                    variant="outlined"
-                    margin="normal"
-                    onChange={(v) => settmp_user((previous) => ({ ...previous, Prénom: v.target.value }))}
-                /><br></br>
-                <TextField
-                    required
-                    id="Nom"
-                    label="Nom"
-                    variant="outlined"
-                    margin="normal"
-                    onChange={(v) => settmp_user((previous) => ({ ...previous, Nom: v.target.value }))}
-                /><br></br>
-                <TextField
-                    required
-                    id="Age"
-                    label="Age"
-                    type="number"
-                    variant="outlined"
-                    margin="normal"
-                    onChange={(v) => settmp_user((previous) => ({ ...previous, Age: Number(v.target.value) }))}
-                /><br></br>
-                <TextField
-                    required
-                    id="Photo_URL"
-                    label="Photo_URL"
-                    variant="outlined"
-                    margin="normal"
-                    onChange={(v) => settmp_user((previous) => ({ ...previous, Photo: v.target.value }))}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleUpdateClose}>Cancel</Button>
-                <Button onClick={() => { UpdateUserInfo(tmp_user); handleUpdateClose(); }}>Modify User</Button>
             </DialogActions>
         </Dialog>
     )

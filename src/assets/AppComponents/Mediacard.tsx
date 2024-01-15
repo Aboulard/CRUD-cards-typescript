@@ -5,7 +5,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { User } from "../../App"
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { User, UpdateUserType } from '../../App';
 
 
 // MediaCardProps is a type that was created to send necessary arguments from one function to another while staying typescript friendly 
@@ -52,4 +53,55 @@ export function MediaCard({ current_user, handleDelete, handleUpdate }: MediaCar
             </Card>
         </Grid>
     );
+}
+
+
+export function MyUpdateUser({ openUpdate, handleUpdateClose, UpdateUserInfo, tmp_user, settmp_user}: UpdateUserType) {
+    return (
+        <Dialog open={openUpdate} onClose={handleUpdateClose} title='Dialog Box to Update Existing User'>
+            <DialogTitle>Modify User</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Modify Information on the current user
+                </DialogContentText>
+                <TextField
+                    required
+                    id="Prénom"
+                    label={tmp_user.Prénom}
+                    variant="outlined"
+                    margin="normal"
+                    onChange={(v) => settmp_user((previous) => ({ ...previous, Prénom: v.target.value }))}
+                /><br></br>
+                <TextField
+                    required
+                    id="Nom"
+                    label={tmp_user.Nom}
+                    variant="outlined"
+                    margin="normal"
+                    onChange={(v) => settmp_user((previous) => ({ ...previous, Nom: v.target.value }))}
+                /><br></br>
+                <TextField
+                    required
+                    id="Age"
+                    label={tmp_user.Age}
+                    type="number"
+                    variant="outlined"
+                    margin="normal"
+                    onChange={(v) => settmp_user((previous) => ({ ...previous, Age: Number(v.target.value) }))}
+                /><br></br>
+                <TextField
+                    required
+                    id="Photo_URL"
+                    label={tmp_user.Photo}
+                    variant="outlined"
+                    margin="normal"
+                    onChange={(v) => settmp_user((previous) => ({ ...previous, Photo: v.target.value }))}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleUpdateClose}>Cancel</Button>
+                <Button onClick={() => { UpdateUserInfo(tmp_user); handleUpdateClose(); }}>Modify User</Button>
+            </DialogActions>
+        </Dialog>
+    )
 }
