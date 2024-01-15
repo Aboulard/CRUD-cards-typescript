@@ -10,9 +10,9 @@ import { User } from '../../App';
 import { useState } from 'react';
 
 
-// MediaCardProps is a type that was created to send necessary arguments from one function to another while staying typescript friendly 
+// UserCardProps is a type that was created to send necessary arguments from one function to another while staying typescript friendly 
 
-export type MediaCardProps = {
+export type UserCardProps = {
     current_user: User;
     usersArray: User[];
     setUsersArray: React.Dispatch<React.SetStateAction<User[]>>
@@ -20,7 +20,7 @@ export type MediaCardProps = {
 
 // This function contains all the code necessary to create and handle a Card, with it's user Data, and possibilty of modifying or deleting it
 
-export function MediaCard({ current_user, usersArray, setUsersArray }: MediaCardProps) {
+export function UserCard({ current_user, usersArray, setUsersArray }: UserCardProps) {
 
     const [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
     const [openUpdate, setOpenUpdate] = useState(false);
@@ -40,11 +40,12 @@ export function MediaCard({ current_user, usersArray, setUsersArray }: MediaCard
     }
 
     const UpdateUserInfo = (my_user: User) => { // A modifier avec Tarik, il veut pas que j'utilise splice 
-        const newArray = usersArray.filter((user) => user.ID == my_user.ID);
-        const myIndex = usersArray.indexOf(newArray[0])
         console.log(my_user)
-
-        usersArray.splice(myIndex, 1, my_user)
+        const newArray = usersArray.filter((user) => user.ID == my_user.ID);
+        const userIndex = usersArray.indexOf(newArray[0])
+//        const currentUserValue = 
+        console.log(newArray)
+        console.log(usersArray[userIndex])
     }
 
     return (

@@ -1,16 +1,10 @@
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { MediaCard } from './assets/AppComponents/Mediacard';
+import { UserCard } from './assets/AppComponents/UserCard';
 import { MyCreateUser } from './assets/AppComponents/CreateUser';
 
 // The user type that I created contains a user specific ID that helps to identify them and all information relevant to that users card
-
-/*
-type setUSer = {
-  tmp_user: User;
-  settmp_user: React.Dispatch<React.SetStateAction<User>>;
-}*/
 
 export type User = {
   ID: number;
@@ -18,19 +12,6 @@ export type User = {
   Prénom: string;
   Age: number;
   Photo: string;
-}
-
-
-export type UpdateUserType = {
-  openUpdate: boolean;
-  handleUpdateClose: () => void;
-  UpdateUserInfo: (my_user: User) => void;
-  tmp_user: User;
-  settmp_user: React.Dispatch<React.SetStateAction<User>>;
-}
-
-export type CreateUserButton = {
-  setOpenCreate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 // This is the main function of this program, it creates a box in which cards with user information will be created and handled.
@@ -46,11 +27,10 @@ function App() {
         return (response.json())
       })
       .then(data => {
-        const newArray = data[0].Users.map((User: User, counter: number) => {
-          return { ID: counter, Nom: User.Nom, Age: User.Age, Prénom: User.Prénom, Photo: User.Photo }
+        const newArray = data[0].Users.map((User: User) => {
+          return { ID: User.ID, Nom: User.Nom, Age: User.Age, Prénom: User.Prénom, Photo: User.Photo }
         });
         setUsersArray(newArray)
-        console.log(newArray)
       })
   }, []);
 
@@ -72,10 +52,11 @@ function App() {
           columns={{ xs: 4, sm: 8, md: 12 }}        //          columns={{ xs: 4, sm: 6, md: 10 }} //Je n'ai pas réussi à le faire marcher comme je le voulais
         >
           {
-            usersArray.map((user) => {
+            usersArray.map((user, index) => {
               return (
-                <Grid item container direction="row" xs={8} sm={3}>
-                  <MediaCard key={user.ID} current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} />
+                <Grid key={`${index}`} item container direction="row" xs={8} sm={3}>
+                  <UserCard current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} />
+                  {/* <UserCard key={`${index} ${user.Nom} ${user.Prénom} ${user.Photo}`} current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} /> */}
                 </Grid>
               )
             })
@@ -85,7 +66,6 @@ function App() {
           <MyCreateUser setUsersArray={setUsersArray} numberElem={numberElem} setnumberElem={setnumberElem} />
         </Box>
       </Box>
-      {/* <MyUpdateUser openUpdate={openUpdate} handleUpdateClose={handleUpdateClose} UpdateUserInfo={UpdateUserInfo} tmp_user={tmp_user} settmp_user={settmp_user} /> */}
     </div>
   );
 }
