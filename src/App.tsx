@@ -1,9 +1,8 @@
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { MediaCard, MyUpdateUser } from './assets/AppComponents/Mediacard';
-import { MyCreateUser } from './assets/AppComponents/MyDialogs';
+import { MyCreateUser, MyCreateUserButton } from './assets/AppComponents/MyDialogs';
 
 // The user type that I created contains a user specific ID that helps to identify them and all information relevant to that users card
 
@@ -23,8 +22,10 @@ export type User = {
 
 export type CreateUserType = {
   openCreate: boolean;
-  handleCreateClose: () => void;
-  CreateUser: (my_user: User) => void;
+  setOpenCreate: React.Dispatch<React.SetStateAction<boolean>>
+  setUsersArray: React.Dispatch<React.SetStateAction<User[]>>;
+  numberElem: number;
+  setnumberElem: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export type UpdateUserType = {
@@ -33,6 +34,10 @@ export type UpdateUserType = {
   UpdateUserInfo: (my_user: User) => void;
   tmp_user: User;
   settmp_user: React.Dispatch<React.SetStateAction<User>>;
+}
+
+export type CreateUserButton = {
+  setOpenCreate: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 // This is the main function of this program, it creates a box in which cards with user information will be created and handled.
@@ -46,14 +51,6 @@ function App() {
   const [openCreate, setOpenCreate] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
 
-  const handleClickCreateOpen = () => {
-    setOpenCreate(true);
-  };
-
-  const handleCreateClose = () => {
-    setOpenCreate(false);
-  };
-
   const handleClickOpenUpdate = (my_user: User) => {
     settmp_user(my_user)
     setOpenUpdate(true);
@@ -66,11 +63,6 @@ function App() {
   const handleDelete = (my_user: User) => {
     const newArray = usersArray.filter((user) => user.ID !== my_user.ID);
     setUsersArray(newArray)
-  }
-
-  const CreateUser = (my_user: User) => {
-    setUsersArray(usersArray => [...usersArray, { ID: numberElem, Nom: my_user.Nom, Age: my_user.Age, Prénom: my_user.Prénom, Photo: my_user.Photo }])
-    setnumberElem(numberElem + 1)
   }
 
   const UpdateUserInfo = (my_user: User) => { // A modifier avec Tarik, il veut pas que j'utilise splice 
@@ -122,16 +114,10 @@ function App() {
           }
         </Grid>
         <Box>
-          <Button
-            sx={{ margin: 'auto' }}
-            variant='contained'
-            onClick={handleClickCreateOpen}
-          >
-            Add User
-          </Button>
+          <MyCreateUserButton setOpenCreate={setOpenCreate} />
         </Box>
       </Box>
-      <MyCreateUser openCreate={openCreate} handleCreateClose={handleCreateClose} CreateUser={CreateUser} />
+      <MyCreateUser openCreate={openCreate} setOpenCreate={setOpenCreate} setUsersArray={setUsersArray} numberElem={numberElem} setnumberElem={setnumberElem} />
       <MyUpdateUser openUpdate={openUpdate} handleUpdateClose={handleUpdateClose} UpdateUserInfo={UpdateUserInfo} tmp_user={tmp_user} settmp_user={settmp_user} />
     </div>
   );
