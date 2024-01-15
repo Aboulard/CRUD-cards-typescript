@@ -6,11 +6,11 @@ import { useState } from 'react';
 export type CreateUserType = {
     setUsersArray: React.Dispatch<React.SetStateAction<User[]>>;
     numberElem: number;
-    setnumberElem: React.Dispatch<React.SetStateAction<number>>;
-  }
-  
+    setNumberElem: React.Dispatch<React.SetStateAction<number>>;
+}
 
-export function MyCreateUser( {setUsersArray, numberElem, setnumberElem} : CreateUserType) {
+
+export function MyCreateUser({ setUsersArray, numberElem, setNumberElem }: CreateUserType) {
     /*
     Problème pas grave mais problème quand même:
     Quand je modifie les infos pour la création d'un User, c'est sauvegardé, ça se reset pas
@@ -18,7 +18,7 @@ export function MyCreateUser( {setUsersArray, numberElem, setnumberElem} : Creat
     */
 
     const [openCreate, setOpenCreate] = useState(false);
-    let [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
+    let [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "", Age: 0, Prénom: "", Photo: "" })
 
     const handleClickCreateOpen = () => {
         setOpenCreate(true);
@@ -28,21 +28,21 @@ export function MyCreateUser( {setUsersArray, numberElem, setnumberElem} : Creat
         setOpenCreate(false);
     };
 
-    const CreateUser = (my_user: User) => {
-        setUsersArray(usersArray => [...usersArray, { ID: numberElem, Nom: my_user.Nom, Age: my_user.Age, Prénom: my_user.Prénom, Photo: my_user.Photo }])
-        setnumberElem(numberElem + 1)
+    const CreateUser = (myUser: User) => {
+        setUsersArray(usersArray => [...usersArray, { ID: numberElem, Nom: myUser.Nom, Age: myUser.Age, Prénom: myUser.Prénom, Photo: myUser.Photo }])
+        setNumberElem(numberElem + 1)
     }
 
     return (
         <>
-        <Button
-            sx={{ margin: 'auto' }}
-            variant='contained'
-            onClick={handleClickCreateOpen}
-        >
-            Add User
-        </Button>
-        <Dialog open={openCreate} onClose={handleCreateClose} title='Dialog Box to Create new User'>
+            <Button
+                sx={{ margin: 'auto' }}
+                variant='contained'
+                onClick={handleClickCreateOpen}
+            >
+                Add User
+            </Button>
+            <Dialog open={openCreate} onClose={handleCreateClose} title='Dialog Box to Create new User'>
                 <DialogTitle>Create User</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -80,7 +80,7 @@ export function MyCreateUser( {setUsersArray, numberElem, setnumberElem} : Creat
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCreateClose}>Cancel</Button>
-                    <Button onClick={() => { CreateUser(tmp_user); handleCreateClose(); } }>Add User</Button>
+                    <Button onClick={() => { CreateUser(tmp_user); handleCreateClose(); }}>Add User</Button>
                 </DialogActions>
             </Dialog></>
     )

@@ -19,7 +19,8 @@ export type User = {
 function App() {
   const [usersArray, setUsersArray] = useState<User[]>([])
 
-  const [numberElem, setnumberElem] = useState(20)
+  const [numberElem, setNumberElem] = useState(20)
+
 
   useEffect(() => {
     fetch(`/users`)
@@ -32,38 +33,34 @@ function App() {
         });
         setUsersArray(newArray)
       })
-  }, []);
 
+  }, []);
   return (
     <div>
       <Box
-        textAlign={"center"}
-        bgcolor={"LightGrey"}
+        textAlign={'center'}
+        bgcolor={"LightBlue"}
         minWidth={"80vw"}
         minHeight={"60vh"}
         margin={5}
-        padding={2}
-        borderRadius={5}
+        borderRadius={10}
       >
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
-          justifyItems={'center'}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {
             usersArray.map((user, index) => {
               return (
-                <Grid key={`${index}`} item container direction="row" xs={8} sm={3}>
-                  <UserCard current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} />
+                <Grid key={`${index}`} item container direction="row" xs={8} sm={12 / 5} >
+                  <UserCard currentUser={user} usersArray={usersArray} setUsersArray={setUsersArray} />
                 </Grid>
               )
             })
           }
         </Grid>
-        <Box>
-          <MyCreateUser setUsersArray={setUsersArray} numberElem={numberElem} setnumberElem={setnumberElem} />
-        </Box>
+        <MyCreateUser setUsersArray={setUsersArray} numberElem={numberElem} setNumberElem={setNumberElem} />
       </Box>
     </div>
   );

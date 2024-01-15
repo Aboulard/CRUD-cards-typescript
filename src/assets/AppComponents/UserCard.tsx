@@ -13,20 +13,20 @@ import { useState } from 'react';
 // UserCardProps is a type that was created to send necessary arguments from one function to another while staying typescript friendly 
 
 export type UserCardProps = {
-    current_user: User;
+    currentUser: User;
     usersArray: User[];
     setUsersArray: React.Dispatch<React.SetStateAction<User[]>>
 }
 
 // This function contains all the code necessary to create and handle a Card, with it's user Data, and possibilty of modifying or deleting it
 
-export function UserCard({ current_user, usersArray, setUsersArray }: UserCardProps) {
+export function UserCard({ currentUser, usersArray, setUsersArray }: UserCardProps) {
 
-    const [tmp_user, settmp_user] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
+    const [tmpUser, setTmpUser] = useState<User>({ ID: -1, Nom: "tmp", Age: 0, Prénom: "tmp", Photo: "tmp" })
     const [openUpdate, setOpenUpdate] = useState(false);
 
-    const handleClickOpenUpdate = (my_user: User) => {
-        settmp_user(my_user)
+    const handleClickOpenUpdate = (myUser: User) => {
+        setTmpUser(myUser)
         setOpenUpdate(true);
     };
 
@@ -34,23 +34,19 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
         setOpenUpdate(false);
     };
 
-    const handleDelete = (my_user: User) => {
-        const newArray = usersArray.filter((user) => user.ID !== my_user.ID);
+    const handleDelete = (myUser: User) => {
+        const newArray = usersArray.filter((user) => user.ID !== myUser.ID);
         setUsersArray(newArray)
     }
 
-    const UpdateUserInfo = () => { // A modifier avec Tarik, il veut pas que j'utilise splice 
-        // const newArray = usersArray.filter((user) => user.ID == tmp_user.ID);
-        // const userIndex = usersArray.indexOf(newArray[0])
-        
-        // usersArray.splice(userIndex, 1, tmp_user)
-        // setUsersArray(usersArray)
-        const tmpArray = usersArray.filter((user) => user.ID != tmp_user.ID) // Donne toute la liste sans l'élément que je veux
-        const newArray = usersArray.filter((user) => user.ID == tmp_user.ID) // Donne uniquement l'élément que je veux
-        const userIndex = usersArray.indexOf(newArray[0]) // Donne la position dans la liste initiale de l'élément que je veux
-
-        tmpArray.splice(userIndex, 0, tmp_user)
-        setUsersArray(tmpArray)
+    const handleUpdateUserInfo = () => {
+        setUsersArray(usersArray.map((user: User) => {
+            if (user.ID === tmpUser.ID) {
+                console.log("I'm at user: ", tmpUser)
+                return tmpUser
+            }
+            return user
+        }))
     }
 
     return (
@@ -59,12 +55,12 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
                 <Card sx={{ width: 200, margin: 3 }}>
                     <CardMedia
                         sx={{ height: 140 }}
-                        image={current_user.Photo}
-                        title={current_user.Prénom + " " + current_user.Nom}
+                        image={currentUser.Photo}
+                        title={currentUser.Prénom + " " + currentUser.Nom}
                     />
                     <CardContent>
                         <Typography gutterBottom align='center'>
-                            {current_user.Prénom}<br></br>{current_user.Nom}<br></br>{String(current_user.Age)}
+                            {currentUser.Prénom}<br></br>{currentUser.Nom}<br></br>{String(currentUser.Age)}
                         </Typography>
                     </CardContent>
                     <CardActions>
@@ -72,7 +68,7 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
                             sx={{ margin: 'auto' }}
                             size="small"
                             variant="outlined"
-                            onClick={() => handleClickOpenUpdate(current_user)}>
+                            onClick={() => handleClickOpenUpdate(currentUser)}>
                             Update
                         </Button>
                         <Button
@@ -80,7 +76,7 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
                             size="small"
                             variant="outlined"
                             color='error'
-                            onClick={() => handleDelete(current_user)}>
+                            onClick={() => handleDelete(currentUser)}>
                             Delete
                         </Button>
                     </CardActions>
@@ -95,42 +91,43 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
                     <TextField
                         required
                         id="Prénom"
-                        label={tmp_user.Prénom}
+                        label={tmpUser.Prénom}
                         variant="outlined"
                         margin="normal"
-                        onChange={(v) => settmp_user((previous) => ({ ...previous, Prénom: v.target.value }))}
+                        onChange={(v) => setTmpUser((previous) => ({ ...previous, Prénom: v.target.value }))}
                     /><br></br>
                     <TextField
                         required
                         id="Nom"
-                        label={tmp_user.Nom}
+                        label={tmpUser.Nom}
                         variant="outlined"
                         margin="normal"
-                        onChange={(v) => settmp_user((previous) => ({ ...previous, Nom: v.target.value }))}
+                        onChange={(v) => setTmpUser((previous) => ({ ...previous, Nom: v.target.value }))}
                     /><br></br>
                     <TextField
                         required
                         id="Age"
-                        label={tmp_user.Age}
+                        label={tmpUser.Age}
                         type="number"
                         variant="outlined"
                         margin="normal"
-                        onChange={(v) => settmp_user((previous) => ({ ...previous, Age: Number(v.target.value) }))}
+                        onChange={(v) => setTmpUser((previous) => ({ ...previous, Age: Number(v.target.value) }))}
                     /><br></br>
                     <TextField
                         required
                         id="Photo_URL"
-                        label={tmp_user.Photo}
+                        label={tmpUser.Photo}
                         variant="outlined"
                         margin="normal"
-                        onChange={(v) => settmp_user((previous) => ({ ...previous, Photo: v.target.value }))}
+                        onChange={(v) => setTmpUser((previous) => ({ ...previous, Photo: v.target.value }))}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleUpdateClose}>Cancel</Button>
-                    <Button onClick={() => { UpdateUserInfo(); handleUpdateClose(); }}>Modify User</Button>
+                    <Button onClick={() => { handleUpdateUserInfo(); handleUpdateClose(); }}>Modify User</Button>
                 </DialogActions>
             </Dialog>
         </>
     );
 }
+
