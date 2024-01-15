@@ -39,13 +39,18 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
         setUsersArray(newArray)
     }
 
-    const UpdateUserInfo = (my_user: User) => { // A modifier avec Tarik, il veut pas que j'utilise splice 
-        console.log(my_user)
-        const newArray = usersArray.filter((user) => user.ID == my_user.ID);
-        const userIndex = usersArray.indexOf(newArray[0])
-//        const currentUserValue = 
-        console.log(newArray)
-        console.log(usersArray[userIndex])
+    const UpdateUserInfo = () => { // A modifier avec Tarik, il veut pas que j'utilise splice 
+        // const newArray = usersArray.filter((user) => user.ID == tmp_user.ID);
+        // const userIndex = usersArray.indexOf(newArray[0])
+        
+        // usersArray.splice(userIndex, 1, tmp_user)
+        // setUsersArray(usersArray)
+        const tmpArray = usersArray.filter((user) => user.ID != tmp_user.ID) // Donne toute la liste sans l'élément que je veux
+        const newArray = usersArray.filter((user) => user.ID == tmp_user.ID) // Donne uniquement l'élément que je veux
+        const userIndex = usersArray.indexOf(newArray[0]) // Donne la position dans la liste initiale de l'élément que je veux
+
+        tmpArray.splice(userIndex, 0, tmp_user)
+        setUsersArray(tmpArray)
     }
 
     return (
@@ -123,7 +128,7 @@ export function UserCard({ current_user, usersArray, setUsersArray }: UserCardPr
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleUpdateClose}>Cancel</Button>
-                    <Button onClick={() => { UpdateUserInfo(tmp_user); handleUpdateClose(); }}>Modify User</Button>
+                    <Button onClick={() => { UpdateUserInfo(); handleUpdateClose(); }}>Modify User</Button>
                 </DialogActions>
             </Dialog>
         </>

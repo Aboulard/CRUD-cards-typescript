@@ -56,7 +56,6 @@ function App() {
               return (
                 <Grid key={`${index}`} item container direction="row" xs={8} sm={3}>
                   <UserCard current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} />
-                  {/* <UserCard key={`${index} ${user.Nom} ${user.Prénom} ${user.Photo}`} current_user={user} usersArray={usersArray} setUsersArray={setUsersArray} /> */}
                 </Grid>
               )
             })
