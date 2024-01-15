@@ -49,7 +49,7 @@ function App() {
           container
           spacing={{ xs: 2, md: 3 }}
           justifyItems={'center'}
-          columns={{ xs: 4, sm: 8, md: 12 }}        //          columns={{ xs: 4, sm: 6, md: 10 }} //Je n'ai pas réussi à le faire marcher comme je le voulais
+          columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {
             usersArray.map((user, index) => {
